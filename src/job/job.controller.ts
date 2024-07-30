@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Param, Post, Put } from '@nestjs/common';
+import { Controller, Get, Param, Post } from '@nestjs/common';
 import { JobService } from './job.service';
 
 @Controller('jobs')
@@ -6,9 +6,8 @@ export class JobController {
   constructor(private readonly jobService: JobService) {}
 
   @Post()
-  createJob(@Body() createJobDto: { title: string; description: string }) {
-    const { title, description } = createJobDto;
-    return this.jobService.createJob(title, description);
+  createJob() {
+    return this.jobService.createJob();
   }
 
   @Get()
@@ -19,11 +18,5 @@ export class JobController {
   @Get(':id')
   getJobById(@Param('id') id: string) {
     return this.jobService.getJobById(id);
-  }
-
-  @Put(':id')
-  updateJob(@Param('id') id: string, @Body() updateJobDto: { title: string; description: string }) {
-    const { title, description } = updateJobDto;
-    return this.jobService.updateJob(id, title, description);
   }
 }
