@@ -1,5 +1,13 @@
-import { Controller, Get, Param, Post, Req } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Param,
+  NotFoundException,
+  Req,
+} from '@nestjs/common';
 import { JobService } from './job.service';
+import { Job } from './job.model';
 
 @Controller('jobs')
 export class JobController {
@@ -13,12 +21,16 @@ export class JobController {
   }
 
   @Get()
-  getAllJobs() {
-    return this.jobService.getAllJobs();
+  getAllJobs(): Job[] {
+    return this.jobService.getJobs();
   }
 
-  @Get(':id')
-  getJobById(@Param('id') id: string) {
-    return this.jobService.getJobById(id);
+  @Get(':jobId')
+  getJobById(@Param('jobId') jobId: string): Job {
+    const job = this.jobService.getJobById(jobId);
+    if (!job) {
+      throw new NotFoundException(`Job with ID ${jobId} not found`);
+    }
+    return job;
   }
 }
