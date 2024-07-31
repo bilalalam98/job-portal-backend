@@ -2,7 +2,7 @@
 import {
   WebSocketGateway,
   WebSocketServer,
-  SubscribeMessage,
+  //   SubscribeMessage,
   OnGatewayInit,
 } from '@nestjs/websockets';
 import { Server } from 'socket.io';
@@ -16,9 +16,9 @@ export class EventsGateway implements OnGatewayInit {
     console.log('WebSocket server initialized');
   }
 
-  @SubscribeMessage('jobStatusUpdate')
-  handleJobStatusUpdate(client: any, job: any): void {
-    console.log('Emitting jobStatusUpdate', job);
-    this.server.emit('jobStatusUpdate', job);
+  //   @SubscribeMessage('jobStatusUpdate')
+  handleJobStatusUpdate(clientId: string, status: string, data: any): void {
+    console.log('Emitting jobStatusUpdate', data);
+    this.server.to(clientId).emit('jobStatusUpdate', { status, data });
   }
 }

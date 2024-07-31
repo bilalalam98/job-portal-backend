@@ -1,11 +1,11 @@
 import { Module } from '@nestjs/common';
 import { JobService } from './job.service';
 import { JobController } from './job.controller';
-import { ScheduleModule } from '@nestjs/schedule';
 import { EventsGateway } from 'src/events/event.gateway';
+import { ConfigModule } from '@nestjs/config';
 
 @Module({
-  imports: [ScheduleModule.forRoot(), EventsGateway],
+  imports: [ConfigModule.forRoot(), EventsGateway],
   providers: [JobService, EventsGateway],
   controllers: [JobController],
 })
